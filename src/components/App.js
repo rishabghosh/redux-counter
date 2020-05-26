@@ -1,18 +1,27 @@
-import React from "react";
-import Color from "../containers/Color";
+import React, { useState } from "react";
+import Color from "./Color";
+import { useStore } from "react-redux";
 
-/**
- * increament
- * decrement - actions
- * count - state count
- */
+function App() {
+  const store = useStore();
+  const { count: initialCount } = store.getState();
+  const [count, setCount] = useState(initialCount);
 
-function App({ count, actions }) {
+  const increment = () => {
+    store.dispatch({ type: "increment" });
+    setCount(store.getState().count);
+  };
+
+  const decrement = () => {
+    store.dispatch({ type: "decrement" });
+    setCount(store.getState().count);
+  };
+
   return (
     <div>
-      <button onClick={actions.decrement}>-</button>
+      <button onClick={decrement}>-</button>
       <span>{count}</span>
-      <button onClick={actions.increment}>+</button>
+      <button onClick={increment}>+</button>
       <Color />
     </div>
   );
